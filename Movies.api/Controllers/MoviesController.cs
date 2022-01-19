@@ -53,5 +53,21 @@ namespace Movies.api.Controllers
                 );
         }
 
+
+        [HttpGet("SearchMoviesFromDB")]
+        public  IActionResult SearchMoviesFromDB(string name)
+        {
+            var response =  _movieServices.SearchMovies(name);
+            return Ok(response);
+        }
+
+
+        [HttpGet("GetAllMovies")]
+        public async Task<IActionResult> GetAllMovies()
+        {
+            var response = await _movieServices.GetAllMovies();
+            return Ok(response);
+        }
+
     }
 }

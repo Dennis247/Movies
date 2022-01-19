@@ -13,19 +13,17 @@ namespace Movies.api.Services
 {
     public interface IMovieServices
     {
-        Task<ModelResponse<MovieDto>> GetMovieByName(string name);
-
+    
         Task<ModelResponse<MovieDto>> Addmovie(MovieDto movieDto);
-
-        Task<ModelResponse<MovieDto>> GetMovieByNameFromLocalRepo(string name);
-
-        Task<ModelResponse<IEnumerable<MovieDto>>> GetAllMoviesFromLocalRepo();
+        Task<ModelResponse<List<MovieDto>>> GetAllMovies();
+        ModelResponse<List<MovieDto>> SearchMovies(string movieName);
     }
-    public class MovieServices : IMovieServices
+
+    public class MovieServices :  IMovieServices
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly IApplicationWriteDbConnection _writeDbConnection;
-        public IMapper _mapper { get; set; }
+        private readonly IMapper _mapper;
         public MovieServices(ApplicationDbContext dbContext, IApplicationWriteDbConnection writeDbConnection, IMapper mapper)
         {
             _dbContext = dbContext;
@@ -42,7 +40,7 @@ namespace Movies.api.Services
                 {
                     _dbContext.Database.UseTransaction(transaction as DbTransaction);
                     //Check if cat already exist
-                    bool moviesExist = await _dbContext.Movies.AnyAsync(a => a.Title == movieDto.Title);
+                    bool moviesExist = await _dbContext.Movies.AnyAsync(a => a.imdbID == movieDto.imdbID);
                     if (moviesExist)
                     {
                         throw new Exception("Movies Already Exists");
@@ -78,19 +76,32 @@ namespace Movies.api.Services
             }
         }
 
-        public Task<ModelResponse<IEnumerable<MovieDto>>> GetAllMoviesFromLocalRepo()
+        public ModelResponse<List<MovieDto>> SearchMovies(string movieName)
         {
-            throw new NotImplementedException();
+            var moviesFromDB = _dbContext.Movies.Include(x=>x.Ratings)
+                .Where(x => x.Title.ToLower().Trim() == movieName.ToLower().Trim()).ToList();
+            var moviesToReturn = _mapper.Map<List<MovieDto>>(moviesFromDB);
+            return new ModelResponse<List<MovieDto>>
+            {
+                IsSucessFull = true,
+                Message = "Sucessful",
+                Payload = moviesToReturn,
+                ResponseCode = System.Net.HttpStatusCode.OK
+            };
         }
 
-        public Task<ModelResponse<MovieDto>> GetMovieByName(string name)
+        public async Task<ModelResponse<List<MovieDto>>> GetAllMovies()
         {
-            throw new NotImplementedException();
+            var moviesFromDB = await _dbContext.Movies.Include(x=>x.Ratings).ToListAsync();
+            var moviesToReturn = _mapper.Map<List<MovieDto>>(moviesFromDB);
+            return new ModelResponse<List<MovieDto>>
+            {
+                IsSucessFull = true,
+                Message = "Sucessful",
+                Payload = moviesToReturn,
+                ResponseCode = System.Net.HttpStatusCode.OK
+            };
         }
 
-        public Task<ModelResponse<MovieDto>> GetMovieByNameFromLocalRepo(string name)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
