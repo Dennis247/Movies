@@ -9,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Movies.api.Data;
+using Movies.api.Models;
 using Movies.api.Services;
 using System;
 using System.Collections.Generic;
@@ -40,11 +41,15 @@ namespace Movies.api
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")) );
 
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+
             services.AddAutoMapper(typeof(Startup));
             services.AddScoped<IMovieServices, MovieServices>();
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
             services.AddScoped<IApplicationWriteDbConnection, ApplicationWriteDbConnection>();
             services.AddScoped<IApplicationReadDbConnection, ApplicationReadDbConnection>();
+            services.AddScoped<IHttpServices, HttpServices>();
+            
 
 
 

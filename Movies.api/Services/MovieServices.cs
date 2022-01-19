@@ -56,16 +56,7 @@ namespace Movies.api.Services
                         throw new Exception("Failed to save movie");
 
                     }
-
-                    //add ratings for movie
-
-                    _dbContext.Ratings.AddRange(movieToInsert.Ratings);
-                    var imageSaveResult = await _dbContext.SaveChangesAsync(default);
-
-
                     transaction.Commit();
-
-
                     var movieDtoResponse = _mapper.Map<MovieDto>(movieToInsert);
                     return new ModelResponse<MovieDto>
                     {
