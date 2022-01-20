@@ -25,7 +25,7 @@
                                                 {
                                                     <li key="17" class="ais-Hits-item iq-product-item iq-card">
                                                         <div class="text-center">
-                                                            <a href="">
+                                                            <a href="@Url.Action("Details","Home",new {Id = item.imdbID })">
                                                                 <div class="h-56 d-flex align-items-center justify-content-center bg-white iq-border-radius-15">
                                                                     <img src="@item.Poster" align="left" alt="" width="150"  height="200">
                                                                 </div>
@@ -34,23 +34,10 @@
                                                                 <div class="text-justify">
                                                                     <a href="javascript:void(0)">@item.Title</a>
                                                                     <p class="font-size-12 mb-0">@item.Genre </p>
-                                                                  @*  <div class="ratting">
-                                                                        <ul class="ratting-item d-flex p-0 m-0">
-                                                                            <li class="full"><i class="ri-star-fill"></i></li>
-                                                                            <li class="full"><i class="ri-star-fill"></i></li>
-                                                                            <li class="full"><i class="ri-star-fill"></i></li>
-                                                                            <li class="full"><i class="ri-star-fill"></i></li>
-                                                                            <li class="full"><i class="ri-star-line"></i></li>
-                                                                        </ul>
-                                                                    </div>*@
+                                                    
                                                                 </div>
                                                                 <div class="iq-product-action my-2">
-                                                                    @*             <button type="button" class="btn btn-primary iq-waves-effect text-uppercase btn-sm addToCart" id="4806800">
-            <i class="ri-shopping-cart-line mr-0"></i>
-        </button>
-        <button type="button" class="btn btn-primary iq-waves-effect text-uppercase btn-sm addToWish" id="4806800">
-            <i class="ri-heart-line mr-0"></i>
-        </button>*@
+  
                                                                     <p class="font-size-12 mb-0">@item.Plot </p>
                                                                     <p class="font-size-16 font-weight-bold float-right">@item.imdbRating</p>
                                                                 </div>
