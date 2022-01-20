@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace Movies.api.Models
+namespace Movies.web.Models
 {
     public class ModelResponse<T>
     {
