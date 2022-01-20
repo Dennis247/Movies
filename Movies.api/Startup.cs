@@ -49,10 +49,7 @@ namespace Movies.api
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
             services.AddScoped<IApplicationWriteDbConnection, ApplicationWriteDbConnection>();
             services.AddScoped<IApplicationReadDbConnection, ApplicationReadDbConnection>();
-            services.AddScoped<IHttpServices, HttpServices>();
-            
-
-
+            services.AddTransient<IHttpServices, HttpServices>();
 
         }
 

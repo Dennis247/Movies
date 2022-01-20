@@ -17,6 +17,7 @@ namespace Movies.api.Services
         Task<ModelResponse<MovieDto>> Addmovie(MovieDto movieDto);
         Task<ModelResponse<List<MovieDto>>> GetAllMovies();
         ModelResponse<List<MovieDto>> SearchMovies(string movieName);
+         ModelResponse<MovieDto> GetMovieById(string Id);
     }
 
     public class MovieServices :  IMovieServices
@@ -89,6 +90,23 @@ namespace Movies.api.Services
                 ResponseCode = System.Net.HttpStatusCode.OK
             };
         }
+
+        public ModelResponse<MovieDto> GetMovieById(string Id)
+        {
+            var movieFromDB = _dbContext.Movies.Include(x => x.Ratings)
+                .FirstOrDefault(x => x.imdbID.ToLower().Trim() == Id.ToLower().Trim());
+            var movieToReturn = _mapper.Map<MovieDto>(movieFromDB);
+            return new ModelResponse<MovieDto>
+            {
+                IsSucessFull = true,
+                Message = "Sucessful",
+                Payload = movieToReturn,
+                ResponseCode = System.Net.HttpStatusCode.OK
+            };
+        }
+
+
+        
 
         public async Task<ModelResponse<List<MovieDto>>> GetAllMovies()
         {

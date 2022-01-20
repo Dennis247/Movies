@@ -61,6 +61,13 @@ namespace Movies.api.Controllers
             return Ok(response);
         }
 
+        [HttpGet("GetMovieById")]
+        public IActionResult GetMovieById(string Id)
+        {
+            var response = _movieServices.GetMovieById(Id);
+            return Ok(response);
+        }
+
 
         [HttpGet("GetAllMovies")]
         public async Task<IActionResult> GetAllMovies()
