@@ -23,6 +23,11 @@ namespace Movies.web.Controllers
             return View();
         }
 
+        public IActionResult Details(string Id)
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();
